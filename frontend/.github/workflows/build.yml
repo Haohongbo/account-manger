@@ -19,6 +19,10 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
 
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - uses: actions/checkout@v4
 
@@ -27,8 +31,8 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Rust
-        uses: dtolnay/rust-action@stable
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Install dependencies
         run: npm install
@@ -38,6 +42,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          projectPath: frontend
           tagName: v__VERSION__
           releaseName: '账号管理系统 v__VERSION__'
           releaseBody: '请下载对应系统的安装包'
